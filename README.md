@@ -41,6 +41,9 @@ Some comprehensive usage examples:
 
 - [examples/z2jh-sync](examples/z2jh-sync) - the sync and login-flow-v2 approaches
 implemented within [Zero To JupyterHub](https://zero-to-jupyterhub.readthedocs.io/)
+- [examples/z2jh-cs3api4lab-sync](examples/z2jh-cs3api4lab-sync) - the sync and login-flow-v2 approaches
+implemented within [Zero To JupyterHub](https://zero-to-jupyterhub.readthedocs.io/)
+together with [the cs3api4lab plugin](https://github.com/sciencemesh/cs3api4lab)
 
 ## Docker images
 
