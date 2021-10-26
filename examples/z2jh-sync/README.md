@@ -5,7 +5,9 @@ The sync and login-flow-v2 approaches implemented within
 in Kubernetes.
 
 Tested with [Z2JH charts](https://github.com/jupyterhub/helm-chart) 
-v. 0.9.0.
+v. 0.9.0 and 1.1.3.
+
+Tested with Docker Engine and CRI-O.
 
 ## Setup
 
@@ -24,7 +26,7 @@ helm repo update
 
 helm upgrade --cleanup-on-fail \
   --install jhub jupyterhub/jupyterhub \
-  --version=0.9.0 \
+  --version=1.1.3 \
   --values config.yaml
 ```
 
@@ -32,8 +34,9 @@ Example for `config.yaml`:
 
 ```
 proxy:
-  # `openssl rand -hex 32`
-  secretToken: 14836d60c5e9fe8a9c9e2cec7693687d6ba024f2593f01425f522e1d2525dba1
+  # add the secretToken setting for the chart version < 1.0.0
+  # generate with: `openssl rand -hex 32`
+  # secretToken: 14836d60c5e9fe8a9c9e2cec7693687d6ba024f2593f01425f522e1d2525dba1
   https:
     enabled: false
 
@@ -44,10 +47,9 @@ hub:
   templatePaths:
     # the custom templates added in the JupyterHub image
     - /opt/templates
-  extraConfig: |-
-    config = '/etc/jupyter/jupyter_notebook_config.py'
-    c.Spawner.cmd = ['jupyter-labhub']
-    c.JupyterHub.spawner_class = 'nextcloud_spawner.NextcloudKubeSpawner'
+  extraConfig:
+    00-nextcloud-kube-spawner: |
+       c.JupyterHub.spawner_class = 'nextcloud_spawner.NextcloudKubeSpawner'
   extraEnv:
     # `openssl rand -hex 32`
     JUPYTERHUB_CRYPT_KEY: 7757f14cbf7d4fd47939a559ef13110c460c535a4d3d87eb7c33d66c50473df8

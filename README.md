@@ -58,3 +58,5 @@ docker.pkg.github.com/sciencemesh/filesystem-for-jupyter/sync
 
 [Read here](https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages)
 how to access the registry.
+
+Docker containers has been tested with both Docker Engine and CRI-O.
