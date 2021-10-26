@@ -1,7 +1,7 @@
 # main, official image
 
 # https://github.com/jupyterhub/helm-chart
-ARG Z2JH_HELM_VERSION=0.9.0
+ARG Z2JH_HELM_VERSION=1.1.3
 # https://github.com/jupyterhub/zero-to-jupyterhub-k8s/tree/master/images/hub
 FROM jupyterhub/k8s-hub:$Z2JH_HELM_VERSION AS jupyterhub-official
 
