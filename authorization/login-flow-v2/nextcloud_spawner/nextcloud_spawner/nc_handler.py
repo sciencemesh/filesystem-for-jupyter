@@ -4,6 +4,7 @@ NC_URL = os.environ['NC_URL']
 NC_HANDLER_IMAGE = os.environ['NC_HANDLER_IMAGE']
 NC_REMOTE_DIR = os.environ['NC_REMOTE_DIR']
 NC_LOCAL_DIR = os.environ.get('NC_LOCAL_DIR', '/home/jovyan')
+NC_INTERVAL = os.environ.get('NC_INTERVAL', '10')
 
 
 class NextcloudFilesystemHandlerContainer:
@@ -24,6 +25,7 @@ class NextcloudFilesystemHandlerContainer:
         self.nc_handler_image = NC_HANDLER_IMAGE
         self.nc_remote_dir = NC_REMOTE_DIR
         self.nc_local_dir = NC_LOCAL_DIR
+        self.nc_interval = NC_INTERVAL
 
     def to_extra_container_dict(self):
         return {
@@ -49,4 +51,5 @@ class NextcloudFilesystemHandlerContainer:
             'NC_LOCAL_DIR': self.nc_local_dir,
             'NC_USER': self.nc_credentials.user,
             'NC_PASS': self.nc_credentials.password,
+            'NC_INTERVAL': self.nc_interval,
         }

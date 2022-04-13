@@ -40,6 +40,7 @@ the single-user pod, e.g. [nextcloudcmd image](../../sync)
 - `NC_REMOTE_DIR` - user directory in Nextcloud to be synchronized; 
 empty string for user root directory
 - `NC_LOCAL_DIR` - user directory in Jupyter to be synchronized; default: `/home/jovyan`
+- `NC_INTERVAL` - delay in seconds between subsequent synchronizations (optional, default: 10)
 - `NC_JUPYTER_LABEL` - name of the JupyterHub instance to be presented to Nextcloud
 (will be seen in Nextcloud user profile in app passwords) 
 - `JUPYTERHUB_CRYPT_KEY` - crypt key as expected by JupyterHub; 
