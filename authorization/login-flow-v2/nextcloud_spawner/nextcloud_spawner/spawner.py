@@ -56,11 +56,23 @@ class NextcloudSpawnerMixin:
 
         try:
             handler_container = NextcloudFilesystemHandlerContainer(self._get_stored_nc_credentials(), self.volume_mounts)
-            self.extra_containers.append(handler_container.to_extra_container_dict())
+            extra_container = handler_container.to_extra_container_dict()
+            self._add_extra_container(extra_container)
         except NcCredentials.DeserializationError:
             # illegal state
             self.log.error('NC credentials cannot be read from user_options. The options are: %s' % self.user_options)
             raise Exception(getmsg('NC_CREDENTIALS_DESERIALIZATION_ERROR'))
+
+    def _add_extra_container(self, extra_container):
+        new_list = []
+
+        # skip previous duplicate(s) of the newly-added container
+        for existing in self.extra_containers:
+            if extra_container['name'] != existing.get('name', None):
+                new_list.append(existing)
+
+        new_list.append(extra_container)
+        self.extra_containers = new_list
 
     def _has_valid_nc_credentials(self):
         try:
