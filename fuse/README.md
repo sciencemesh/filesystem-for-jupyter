@@ -47,3 +47,34 @@ Notes:
 * It runs a regular Jupyter notebook server. Check logs to access the user interface.
 * The home directory is `/home/jovyan`, so the remote files will be mounted to `/home/jovyan/drive`.
 * `JUPYTER_ENABLE_LAB` is the base image's config option to enable the JupyterLab user interface.
+
+## OAuth2
+
+This image can be tweaked, so accessing EFSS files is authorized with OAuth2 access token (instead of user&pass).
+However, refreshing token is not supported yet (see #7).
+
+First, obtain the access token. The example flow for Nextcloud:
+
+```
+# Add OAuth client in Nextcloud settings: /settings/admin/security
+# You get $CLIENT_ID and $CLIENT_SECRET
+
+curl https://$NC_DOMAIN/apps/oauth2/authorize?response_type=code&client_id=$CLIEND_ID&redirect_uri=http://localhost/test
+# Go to URL returned in 'Location', and authorize client
+# You get $CODE from the URL after redirection
+
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "grant_type=authorization_code&code=$CODE&redirect_uri=http://localhost/test&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" https://$NC_DOMAIN/apps/oauth2/api/v1/token
+# You get sth like: {"access_token":"...","token_type":"Bearer","expires_in":3600,"refresh_token":"...","user_id":"..."}
+# The access_token is what we need later.
+```
+
+Then, tweak the image. 
+Append `davfs2.conf` with:
+```
+add_header Authorization "Bearer ACCESS_TOKEN"
+ask_auth 0
+``` 
+
+and rebuild the image.
+
+Run the container with any non-empty values in `WEBDAV_USER` and `WEBDAV_PASS`.
